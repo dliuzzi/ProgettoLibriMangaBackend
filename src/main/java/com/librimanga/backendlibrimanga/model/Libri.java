@@ -29,7 +29,10 @@ public class Libri {
     private Double prezzo;
 
     @Column(columnDefinition = "DATE", nullable = false)
-    private LocalDate data_pubblicazione;
+    private LocalDate dataPubblicazione;
+
+    @Column(nullable = false)
+    private Integer quantitaDisponibile;
 
     @ManyToOne
     @JoinColumn(name = "id_autore")
@@ -44,5 +47,5 @@ public class Libri {
 
     @ManyToOne
     @JoinColumn(name = "id_casa_editrice")
-    private CaseEditrici casa_editrice;
+    private CaseEditrici casaEditrice;
 }

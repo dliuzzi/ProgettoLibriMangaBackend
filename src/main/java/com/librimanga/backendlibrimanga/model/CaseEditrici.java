@@ -14,5 +14,8 @@ public class CaseEditrici {
     private Integer id;
 
     @Column(length = 100, nullable = false)
+    private String nome;
+
+    @Column(length = 100)
     private String sede;
 }

@@ -10,5 +10,6 @@ import lombok.ToString;
 @Builder
 public class CaseEditriciDTO {
     private Integer id;
+    private String nome;
     private String sede;
 }

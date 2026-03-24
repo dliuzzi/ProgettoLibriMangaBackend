@@ -9,11 +9,14 @@ import com.librimanga.backendlibrimanga.model.Autori;
 import com.librimanga.backendlibrimanga.model.CaseEditrici;
 import com.librimanga.backendlibrimanga.repository.AutoriRepository;
 import com.librimanga.backendlibrimanga.repository.CaseEditriciRepository;
+import com.librimanga.backendlibrimanga.utilities.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.librimanga.backendlibrimanga.utilities.Mapper.buildCaseEditriciDTO;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -26,6 +29,7 @@ public class CaseEditriciService {
         log.debug("create {}", req);
 
         CaseEditrici c = new CaseEditrici();
+        c.setNome(req.getNome());
         c.setSede(req.getSede());
 
         caseR.save(c);
@@ -35,11 +39,8 @@ public class CaseEditriciService {
         log.debug("list");
         List<CaseEditrici> lC = caseR.findAll();
         return lC.stream()
-                .map((c -> CaseEditriciDTO.builder()
-                        .id(c.getId())
-                        .sede(c.getSede())
-                        .build())
-                ).toList();
+                .map(Mapper::buildCaseEditriciDTO)
+                .toList();
     }
 
     public CaseEditriciDTO getById(Integer id) throws LibriException {
@@ -47,9 +48,6 @@ public class CaseEditriciService {
         CaseEditrici c = caseR.findById(id)
                 .orElseThrow(() -> new LibriException(msgS.get("case_ntfnd")));
 
-        return CaseEditriciDTO.builder()
-                .id(c.getId())
-                .sede(c.getSede())
-                .build();
+        return buildCaseEditriciDTO(c);
     }
 }

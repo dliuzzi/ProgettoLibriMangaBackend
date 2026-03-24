@@ -11,11 +11,14 @@ import com.librimanga.backendlibrimanga.model.Autori;
 import com.librimanga.backendlibrimanga.model.Utenti;
 import com.librimanga.backendlibrimanga.repository.AutoriRepository;
 import com.librimanga.backendlibrimanga.repository.UtentiRepository;
+import com.librimanga.backendlibrimanga.utilities.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.librimanga.backendlibrimanga.utilities.Mapper.buildAutoriDTO;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -38,12 +41,8 @@ public class AutoriService {
         log.debug("list");
         List<Autori> lA = atR.findAll();
         return lA.stream()
-                .map((a -> AutoriDTO.builder()
-                        .id(a.getId())
-                        .nome(a.getNome())
-                        .cognome(a.getCognome())
-                        .build())
-                ).toList();
+                .map(Mapper::buildAutoriDTO)
+                .toList();
     }
 
     public AutoriDTO getById(Integer id) throws LibriException {
@@ -51,10 +50,6 @@ public class AutoriService {
         Autori a = atR.findById(id)
                 .orElseThrow(() -> new LibriException(msgS.get("autori_ntfnd")));
 
-        return AutoriDTO.builder()
-                .id(a.getId())
-                .nome(a.getNome())
-                .cognome(a.getCognome())
-                .build();
+        return buildAutoriDTO(a);
     }
 }

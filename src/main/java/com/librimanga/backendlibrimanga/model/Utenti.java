@@ -1,5 +1,6 @@
 package com.librimanga.backendlibrimanga.model;
 
+import com.librimanga.backendlibrimanga.enums.Ruoli;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,4 +25,16 @@ public class Utenti {
 
     @Column(length = 30, nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private Ruoli ruolo;
+
+    @Column(length = 100)
+    private String via;
+
+    @Column(length = 100)
+    private String provincia;
+
+    @Column(length = 100)
+    private String telefono;
 }

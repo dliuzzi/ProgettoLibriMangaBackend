@@ -4,14 +4,18 @@ import com.librimanga.backendlibrimanga.dto.inputs.LoginReq;
 import com.librimanga.backendlibrimanga.dto.inputs.UtentiReq;
 import com.librimanga.backendlibrimanga.dto.outputs.LoginDTO;
 import com.librimanga.backendlibrimanga.dto.outputs.UtentiDTO;
+import com.librimanga.backendlibrimanga.enums.Ruoli;
 import com.librimanga.backendlibrimanga.exceptions.LibriException;
 import com.librimanga.backendlibrimanga.model.Utenti;
 import com.librimanga.backendlibrimanga.repository.UtentiRepository;
+import com.librimanga.backendlibrimanga.utilities.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.librimanga.backendlibrimanga.utilities.Mapper.buildUtentiDTO;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -32,6 +36,10 @@ public class UtentiService {
         u.setCognome(req.getCognome());
         u.setEmail(req.getEmail());
         u.setPassword(req.getPassword());
+        u.setRuolo(Ruoli.valueOf(req.getRuolo()));
+        u.setVia(req.getVia());
+        u.setProvincia(req.getProvincia());
+        u.setTelefono(req.getTelefono());
 
         utR.save(u);
     }
@@ -40,14 +48,8 @@ public class UtentiService {
         log.debug("list");
         List<Utenti> lU = utR.findAll();
         return lU.stream()
-                .map((u -> UtentiDTO.builder()
-                        .id(u.getId())
-                        .nome(u.getNome())
-                        .cognome(u.getCognome())
-                        .email(u.getEmail())
-                        .password(u.getPassword())
-                        .build())
-                ).toList();
+                .map(Mapper::buildUtentiDTO)
+                .toList();
     }
 
     public UtentiDTO getById(Integer id) throws LibriException {
@@ -55,13 +57,7 @@ public class UtentiService {
         Utenti u = utR.findById(id)
                 .orElseThrow(() -> new LibriException(msgS.get("utenti_ntfnd")));
 
-        return UtentiDTO.builder()
-                .id(u.getId())
-                .nome(u.getNome())
-                .cognome(u.getCognome())
-                .email(u.getEmail())
-                .password(u.getPassword())
-                .build();
+        return buildUtentiDTO(u);
     }
 
     public LoginDTO login(LoginReq req) throws LibriException {

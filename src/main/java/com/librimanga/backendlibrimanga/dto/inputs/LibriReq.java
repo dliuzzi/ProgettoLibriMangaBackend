@@ -20,9 +20,10 @@ public class LibriReq {
     private String descrizione;
     private String copertina;
     private Double prezzo;
-    private LocalDate data_pubblicazione;
+    private LocalDate dataPubblicazione;
+    private Integer quantitaDisponibile;
 
-    private Integer id_autore;
-    private Set<Integer> id_categorie;
-    private Integer id_casa_editrice;
+    private Integer idAutore;
+    private Set<Integer> idCategorie;
+    private Integer idCasaEditrice;
 }

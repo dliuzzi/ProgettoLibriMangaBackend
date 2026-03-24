@@ -13,4 +13,8 @@ public class UtentiReq {
     private String cognome;
     private String email;
     private String password;
+    private String ruolo;
+    private String via;
+    private String provincia;
+    private String telefono;
 }
