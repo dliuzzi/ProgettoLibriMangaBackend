@@ -2,7 +2,6 @@ package com.librimanga.backendlibrimanga.service;
 
 import com.librimanga.backendlibrimanga.dto.inputs.LoginReq;
 import com.librimanga.backendlibrimanga.dto.inputs.UtentiReq;
-import com.librimanga.backendlibrimanga.dto.outputs.LoginDTO;
 import com.librimanga.backendlibrimanga.dto.outputs.UtentiDTO;
 import com.librimanga.backendlibrimanga.enums.Ruoli;
 import com.librimanga.backendlibrimanga.exceptions.LibriException;
@@ -60,7 +59,7 @@ public class UtentiService {
         return buildUtentiDTO(u);
     }
 
-    public LoginDTO login(LoginReq req) throws LibriException {
+    public UtentiDTO login(LoginReq req) throws LibriException {
         log.debug("login {}", req);
         Utenti ut = utR.findByEmail(req.getEmail())
                 .orElseThrow(() -> new LibriException(msgS.get("login_invalid")));
@@ -68,9 +67,6 @@ public class UtentiService {
             throw new LibriException(msgS.get("login_invalid"));
         }
 
-        return LoginDTO.builder()
-                .token("")
-                .user(buildUtentiDTO(ut))
-                .build();
+        return buildUtentiDTO(ut);
     }
 }
