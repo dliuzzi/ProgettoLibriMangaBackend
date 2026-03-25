@@ -43,6 +43,32 @@ public class UtentiService {
         utR.save(u);
     }
 
+    public void update(UtentiReq req) throws LibriException {
+        log.debug("update {}", req);
+
+        Utenti u = utR.findById(req.getId())
+                .orElseThrow(() -> new LibriException(msgS.get("utenti_ntfnd")));
+
+        if (req.getNome() != null)
+            u.setNome(req.getNome());
+        if (req.getCognome() != null)
+            u.setCognome(req.getCognome());
+        if (req.getEmail() != null)
+            u.setEmail(req.getEmail());
+        if (req.getPassword() != null)
+            u.setPassword(req.getPassword());
+        if (req.getRuolo() != null)
+            u.setRuolo(Ruoli.valueOf(req.getRuolo()));
+        if (req.getVia() != null)
+            u.setVia(req.getVia());
+        if (req.getProvincia() != null)
+            u.setProvincia(req.getProvincia());
+        if (req.getTelefono() != null)
+            u.setTelefono(req.getTelefono());
+
+        utR.save(u);
+    }
+
     public List<UtentiDTO> list() {
         log.debug("list");
         List<Utenti> lU = utR.findAll();

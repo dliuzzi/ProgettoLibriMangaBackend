@@ -31,6 +31,19 @@ public class UtentiController {
         return ResponseEntity.status(status).body(r);
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<Resp> update(@RequestBody UtentiReq req) {
+        Resp r = new Resp();
+        HttpStatus status = HttpStatus.OK;
+        try {
+            utS.update(req);
+            r.setMsg(msgS.get("rest_updated"));
+        } catch (Exception e) {
+            status = HttpStatus.BAD_REQUEST;
+        }
+        return ResponseEntity.status(status).body(r);
+    }
+
     @GetMapping("/list")
     public ResponseEntity<Object> list() {
         Object r;
