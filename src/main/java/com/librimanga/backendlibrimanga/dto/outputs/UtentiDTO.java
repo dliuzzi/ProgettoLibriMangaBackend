@@ -12,7 +12,6 @@ public class UtentiDTO {
     private String nome;
     private String cognome;
     private String email;
-    private String password;
     private String ruolo;
     private String via;
     private String provincia;

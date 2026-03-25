@@ -34,5 +34,5 @@ public class DettagliOrdini {
 
     @ManyToOne
     @JoinColumn(name = "id_ordine")
-    private Libri ordine;
+    private Ordini ordine;
 }

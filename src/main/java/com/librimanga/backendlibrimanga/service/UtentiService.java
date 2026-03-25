@@ -69,8 +69,8 @@ public class UtentiService {
         }
 
         return LoginDTO.builder()
-                .id(ut.getId())
-                .email(ut.getEmail())
+                .token("")
+                .user(buildUtentiDTO(ut))
                 .build();
     }
 }

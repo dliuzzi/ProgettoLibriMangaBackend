@@ -2,7 +2,6 @@ package com.librimanga.backendlibrimanga.utilities;
 
 import com.librimanga.backendlibrimanga.dto.outputs.*;
 import com.librimanga.backendlibrimanga.model.*;
-import com.librimanga.backendlibrimanga.repository.CategorieRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,7 +50,6 @@ public class Mapper {
                 .nome(u.getNome())
                 .cognome(u.getCognome())
                 .email(u.getEmail())
-                .password(u.getPassword())
                 .ruolo(u.getRuolo().toString())
                 .via(u.getVia())
                 .provincia(u.getProvincia())

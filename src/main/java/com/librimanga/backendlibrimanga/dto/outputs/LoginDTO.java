@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @Builder
 public class LoginDTO {
-    private Integer id;
-    private String email;
+    private String token;
+    private UtentiDTO user;
 }
