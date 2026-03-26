@@ -6,6 +6,7 @@ import com.librimanga.backendlibrimanga.dto.inputs.UtentiReq;
 import com.librimanga.backendlibrimanga.dto.outputs.LibriDTO;
 import com.librimanga.backendlibrimanga.dto.outputs.LoginDTO;
 import com.librimanga.backendlibrimanga.dto.outputs.UtentiDTO;
+import com.librimanga.backendlibrimanga.enums.OrdineLibri;
 import com.librimanga.backendlibrimanga.exceptions.LibriException;
 import com.librimanga.backendlibrimanga.model.*;
 import com.librimanga.backendlibrimanga.repository.*;
@@ -60,9 +61,17 @@ public class LibriService {
         libR.save(l);
     }
 
-    public List<LibriDTO> list() {
+    public List<LibriDTO> list(OrdineLibri sort) {
         log.debug("list");
-        List<Libri> lL = libR.findAll();
+
+        List<Libri> lL = switch (sort) {
+            case annoAsc -> libR.findByOrderByDataPubblicazioneAsc();
+            case annoDesc -> libR.findByOrderByDataPubblicazioneDesc();
+            case prezzoAsc -> libR.findByOrderByPrezzoAsc();
+            case prezzoDesc -> libR.findByOrderByPrezzoDesc();
+            case null, default -> libR.findAll();
+        };
+
         return lL.stream()
                 .map(Mapper::buildLibriDTO)
                 .toList();

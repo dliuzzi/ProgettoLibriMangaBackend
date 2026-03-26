@@ -1,6 +1,7 @@
 package com.librimanga.backendlibrimanga.controller;
 
 import com.librimanga.backendlibrimanga.dto.inputs.LibriReq;
+import com.librimanga.backendlibrimanga.enums.OrdineLibri;
 import com.librimanga.backendlibrimanga.response.Resp;
 import com.librimanga.backendlibrimanga.service.LibriService;
 import com.librimanga.backendlibrimanga.service.MessaggiService;
@@ -31,11 +32,11 @@ public class LibriController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<Object> list() {
+    public ResponseEntity<Object> list(@RequestParam(required = false) OrdineLibri sort) {
         Object r;
         HttpStatus status = HttpStatus.OK;
         try {
-            r= libS.list();
+            r= libS.list(sort);
         } catch (Exception e) {
             r=e.getMessage();
             status = HttpStatus.BAD_REQUEST;
