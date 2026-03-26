@@ -1,9 +1,7 @@
 package com.librimanga.backendlibrimanga.controller;
 
-import com.librimanga.backendlibrimanga.dto.inputs.CategorieReq;
 import com.librimanga.backendlibrimanga.dto.inputs.LibriReq;
 import com.librimanga.backendlibrimanga.response.Resp;
-import com.librimanga.backendlibrimanga.service.CategorieService;
 import com.librimanga.backendlibrimanga.service.LibriService;
 import com.librimanga.backendlibrimanga.service.MessaggiService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("categorie")
+@RequestMapping("libri")
 public class LibriController {
     private final LibriService libS;
     private final MessaggiService msgS;
