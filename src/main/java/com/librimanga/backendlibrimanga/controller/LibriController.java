@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("libri")
@@ -32,11 +34,14 @@ public class LibriController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<Object> list(@RequestParam(required = false) OrdineLibri sort) {
+    public ResponseEntity<Object> list(
+            @RequestParam(required = false) OrdineLibri sort,
+            @RequestParam(required = false) Set<Integer> categorie
+            ) {
         Object r;
         HttpStatus status = HttpStatus.OK;
         try {
-            r= libS.list(sort);
+            r= libS.list(sort, categorie);
         } catch (Exception e) {
             r=e.getMessage();
             status = HttpStatus.BAD_REQUEST;
