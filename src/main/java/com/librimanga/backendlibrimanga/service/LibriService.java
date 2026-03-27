@@ -1,11 +1,7 @@
 package com.librimanga.backendlibrimanga.service;
 
 import com.librimanga.backendlibrimanga.dto.inputs.LibriReq;
-import com.librimanga.backendlibrimanga.dto.inputs.LoginReq;
-import com.librimanga.backendlibrimanga.dto.inputs.UtentiReq;
 import com.librimanga.backendlibrimanga.dto.outputs.LibriDTO;
-import com.librimanga.backendlibrimanga.dto.outputs.LoginDTO;
-import com.librimanga.backendlibrimanga.dto.outputs.UtentiDTO;
 import com.librimanga.backendlibrimanga.enums.OrdineLibri;
 import com.librimanga.backendlibrimanga.exceptions.LibriException;
 import com.librimanga.backendlibrimanga.model.*;
@@ -18,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.librimanga.backendlibrimanga.utilities.Mapper.*;
 
@@ -61,7 +58,7 @@ public class LibriService {
         libR.save(l);
     }
 
-    public List<LibriDTO> list(OrdineLibri sort) {
+    public List<LibriDTO> list(OrdineLibri sort, Set<Integer> categorie) {
         log.debug("list");
 
         List<Libri> lL = switch (sort) {
@@ -69,8 +66,21 @@ public class LibriService {
             case annoDesc -> libR.findByOrderByDataPubblicazioneDesc();
             case prezzoAsc -> libR.findByOrderByPrezzoAsc();
             case prezzoDesc -> libR.findByOrderByPrezzoDesc();
-            case null, default -> libR.findAll();
+            case null, default -> libR.findByOrderByIdAsc();
         };
+
+        if (categorie != null) {
+            lL = lL.stream()
+                    .filter(l -> {
+                        if (l.getCategorie() == null) return false;
+
+                        Set<Integer> idsLibro = l.getCategorie().stream()
+                                .map(Categorie::getId)
+                                .collect(Collectors.toSet());
+
+                        return idsLibro.containsAll(categorie);
+                    }).toList();
+        }
 
         return lL.stream()
                 .map(Mapper::buildLibriDTO)
