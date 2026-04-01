@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Slf4j
 @SpringBootTest
@@ -47,5 +48,25 @@ public class UtentiServiceTest {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+    }
+
+    @Test
+    @Order(2)
+    public void createUtenteErrorTest() {
+        log.debug("create utente in error");
+
+        UtentiReq req = new UtentiReq();
+        req.setNome("pinco");
+        req.setCognome("pallo");
+        req.setEmail("pinco@outlook.com");
+        req.setPassword("miku2");
+        req.setRuolo("ADMIN");
+        req.setVia("Via pinco");
+        req.setProvincia("Pallo");
+        req.setTelefono("1234567890");
+
+        assertThrows(Exception.class, () -> {
+            service.create(req);
+        });
     }
 }
