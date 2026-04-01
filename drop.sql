@@ -28,6 +28,12 @@
     alter table if exists libri_categorie 
        drop constraint if exists FKxrdupktuwtkj0bhopjod1ll1;
 
+    alter table if exists libri_preferiti 
+       drop constraint if exists FKrrofl78gfhw6yo9exuo97usi2;
+
+    alter table if exists libri_preferiti 
+       drop constraint if exists FK4tiunf9dh4vym00x9r4n0nivn;
+
     alter table if exists ordini 
        drop constraint if exists FKqj5n4mdh5tc9qkj7hx54mvgi4;
 
@@ -46,6 +52,8 @@
     drop table if exists libri cascade;
 
     drop table if exists libri_categorie cascade;
+
+    drop table if exists libri_preferiti cascade;
 
     drop table if exists messaggi_sistema cascade;
 

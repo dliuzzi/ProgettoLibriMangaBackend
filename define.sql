@@ -65,6 +65,12 @@
         primary key (id_categoria, id_libro)
     );
 
+    create table libri_preferiti (
+        id_libro integer not null,
+        id_utente integer not null,
+        primary key (id_libro, id_utente)
+    );
+
     create table messaggi_sistema (
         lang varchar(4) not null,
         code varchar(20) not null,
@@ -135,6 +141,16 @@
        add constraint FKxrdupktuwtkj0bhopjod1ll1 
        foreign key (id_libro) 
        references libri;
+
+    alter table if exists libri_preferiti 
+       add constraint FKrrofl78gfhw6yo9exuo97usi2 
+       foreign key (id_libro) 
+       references libri;
+
+    alter table if exists libri_preferiti 
+       add constraint FK4tiunf9dh4vym00x9r4n0nivn 
+       foreign key (id_utente) 
+       references utenti;
 
     alter table if exists ordini 
        add constraint FKqj5n4mdh5tc9qkj7hx54mvgi4 

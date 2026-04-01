@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -16,4 +18,5 @@ public class UtentiDTO {
     private String via;
     private String provincia;
     private String telefono;
+    private List<LibriDTO> libriPreferiti;
 }

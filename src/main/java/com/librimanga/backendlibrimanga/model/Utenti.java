@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -37,4 +39,11 @@ public class Utenti {
 
     @Column(length = 100)
     private String telefono;
+
+    @ManyToMany
+    @JoinTable(
+            name = "libri_preferiti",
+            joinColumns = @JoinColumn(name = "id_utente"),
+            inverseJoinColumns = @JoinColumn(name = "id_libro"))
+    Set<Libri> libriPreferiti;
 }

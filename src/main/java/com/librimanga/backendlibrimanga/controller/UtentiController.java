@@ -1,6 +1,7 @@
 package com.librimanga.backendlibrimanga.controller;
 
 import com.librimanga.backendlibrimanga.dto.inputs.LoginReq;
+import com.librimanga.backendlibrimanga.dto.inputs.PreferitiReq;
 import com.librimanga.backendlibrimanga.dto.inputs.UtentiReq;
 import com.librimanga.backendlibrimanga.response.Resp;
 import com.librimanga.backendlibrimanga.service.MessaggiService;
@@ -79,6 +80,34 @@ public class UtentiController {
         } catch (Exception e) {
             r=new Resp();
             ((Resp)r).setMsg(e.getMessage());
+            status = HttpStatus.BAD_REQUEST;
+        }
+        return ResponseEntity.status(status).body(r);
+    }
+
+    @PostMapping("/addFavourite")
+    public ResponseEntity<Resp> addFavourite(@RequestBody PreferitiReq req) {
+        Resp r = new Resp();
+        HttpStatus status = HttpStatus.OK;
+        try {
+            utS.addFavourite(req);
+            r.setMsg(msgS.get("rest_created"));
+        } catch (Exception e) {
+            r.setMsg(e.getMessage());
+            status = HttpStatus.BAD_REQUEST;
+        }
+        return ResponseEntity.status(status).body(r);
+    }
+
+    @DeleteMapping("/deleteFavourite")
+    public ResponseEntity<Resp> deleteFavourite(@RequestParam PreferitiReq req) {
+        Resp r = new Resp();
+        HttpStatus status = HttpStatus.OK;
+        try {
+            utS.deleteFavourite(req);
+            r.setMsg(msgS.get("rest_deleted"));
+        } catch (Exception e) {
+            r.setMsg(e.getMessage());
             status = HttpStatus.BAD_REQUEST;
         }
         return ResponseEntity.status(status).body(r);

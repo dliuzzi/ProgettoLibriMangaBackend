@@ -1,11 +1,14 @@
 package com.librimanga.backendlibrimanga.service;
 
 import com.librimanga.backendlibrimanga.dto.inputs.LoginReq;
+import com.librimanga.backendlibrimanga.dto.inputs.PreferitiReq;
 import com.librimanga.backendlibrimanga.dto.inputs.UtentiReq;
 import com.librimanga.backendlibrimanga.dto.outputs.UtentiDTO;
 import com.librimanga.backendlibrimanga.enums.Ruoli;
 import com.librimanga.backendlibrimanga.exceptions.LibriException;
+import com.librimanga.backendlibrimanga.model.Libri;
 import com.librimanga.backendlibrimanga.model.Utenti;
+import com.librimanga.backendlibrimanga.repository.LibriRepository;
 import com.librimanga.backendlibrimanga.repository.UtentiRepository;
 import com.librimanga.backendlibrimanga.utilities.Mapper;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.librimanga.backendlibrimanga.utilities.Mapper.buildUtentiDTO;
 
@@ -21,6 +25,7 @@ import static com.librimanga.backendlibrimanga.utilities.Mapper.buildUtentiDTO;
 @Service
 public class UtentiService {
     private final UtentiRepository utR;
+    private final LibriRepository libR;
     private final MessaggiService msgS;
 
     public void create(UtentiReq req) throws LibriException {
@@ -94,5 +99,35 @@ public class UtentiService {
         }
 
         return buildUtentiDTO(ut);
+    }
+
+    public void addFavourite(PreferitiReq req) throws LibriException {
+        log.debug("addFavourite {} {}", req);
+
+        Utenti ut = utR.findById(req.getIdUtente())
+                .orElseThrow(() -> new LibriException(msgS.get("utente_ntfnd")));
+
+        Libri l = libR.findById(req.getIdLibro())
+                .orElseThrow(() -> new LibriException(msgS.get("libri_ntfnd")));
+
+        Set<Libri> preferiti = ut.getLibriPreferiti();
+        preferiti.add(l);
+
+        utR.save(ut);
+    }
+
+    public void deleteFavourite(PreferitiReq req) throws LibriException {
+        log.debug("deleteFavourite {} {}", req);
+
+        Utenti ut = utR.findById(req.getIdUtente())
+                .orElseThrow(() -> new LibriException(msgS.get("utente_ntfnd")));
+
+        Libri l = libR.findById(req.getIdLibro())
+                .orElseThrow(() -> new LibriException(msgS.get("libri_ntfnd")));
+
+        Set<Libri> preferiti = ut.getLibriPreferiti();
+        preferiti.remove(l);
+
+        utR.save(ut);
     }
 }
