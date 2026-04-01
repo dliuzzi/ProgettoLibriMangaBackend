@@ -10,6 +10,7 @@ import com.librimanga.backendlibrimanga.utilities.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +29,7 @@ public class LibriService {
     private final CaseEditriciRepository caseR;
     private final MessaggiService msgS;
 
+    @Transactional(rollbackFor = LibriException.class)
     public void create(LibriReq req) throws LibriException {
         log.debug("create {}", req);
 
@@ -58,6 +60,7 @@ public class LibriService {
         libR.save(l);
     }
 
+    @Transactional(readOnly = true)
     public List<LibriDTO> list(OrdineLibri sort, Set<Integer> categorie) {
         log.debug("list");
 
@@ -87,6 +90,7 @@ public class LibriService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public LibriDTO getById(Integer id) throws LibriException {
         log.debug("getById {}", id);
         Libri l = libR.findById(id)

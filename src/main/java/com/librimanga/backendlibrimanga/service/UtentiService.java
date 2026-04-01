@@ -14,6 +14,7 @@ import com.librimanga.backendlibrimanga.utilities.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -28,6 +29,7 @@ public class UtentiService {
     private final LibriRepository libR;
     private final MessaggiService msgS;
 
+    @Transactional(rollbackFor = LibriException.class)
     public void create(UtentiReq req) throws LibriException {
         log.debug("create {}", req);
 
@@ -48,6 +50,7 @@ public class UtentiService {
         utR.save(u);
     }
 
+    @Transactional(rollbackFor = LibriException.class)
     public void update(UtentiReq req) throws LibriException {
         log.debug("update {}", req);
 
@@ -74,6 +77,7 @@ public class UtentiService {
         utR.save(u);
     }
 
+    @Transactional(readOnly = true)
     public List<UtentiDTO> list() {
         log.debug("list");
         List<Utenti> lU = utR.findAll();
@@ -82,6 +86,7 @@ public class UtentiService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public UtentiDTO getById(Integer id) throws LibriException {
         log.debug("getById {}", id);
         Utenti u = utR.findById(id)
@@ -90,6 +95,7 @@ public class UtentiService {
         return buildUtentiDTO(u);
     }
 
+    @Transactional(readOnly = true)
     public UtentiDTO login(LoginReq req) throws LibriException {
         log.debug("login {}", req);
         Utenti ut = utR.findByEmail(req.getEmail())
@@ -101,6 +107,7 @@ public class UtentiService {
         return buildUtentiDTO(ut);
     }
 
+    @Transactional(rollbackFor = LibriException.class)
     public void addFavourite(PreferitiReq req) throws LibriException {
         log.debug("addFavourite {} {}", req);
 
@@ -116,6 +123,7 @@ public class UtentiService {
         utR.save(ut);
     }
 
+    @Transactional(rollbackFor = LibriException.class)
     public void deleteFavourite(PreferitiReq req) throws LibriException {
         log.debug("deleteFavourite {} {}", req);
 

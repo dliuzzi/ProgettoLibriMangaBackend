@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ public class MessaggiService {
     @Value("${lang}")
     private String lang;
 
+    @Transactional(readOnly = true)
     public String get(String code) {
         log.debug("get  {} ",code);
         String r = null;

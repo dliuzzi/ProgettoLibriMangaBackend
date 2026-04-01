@@ -9,6 +9,7 @@ import com.librimanga.backendlibrimanga.utilities.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class CategorieService {
     private final CategorieRepository catR;
     private final MessaggiService msgS;
 
+    @Transactional(rollbackFor = LibriException.class)
     public void create(CategorieReq req) throws LibriException {
         log.debug("create {}", req);
 
@@ -30,6 +32,7 @@ public class CategorieService {
         catR.save(c);
     }
 
+    @Transactional(readOnly = true)
     public List<CategorieDTO> list() {
         log.debug("list");
         List<Categorie> lC = catR.findAll();
@@ -38,6 +41,7 @@ public class CategorieService {
                 ).toList();
     }
 
+    @Transactional(readOnly = true)
     public CategorieDTO getById(Integer id) throws LibriException {
         log.debug("getById {}", id);
         Categorie c = catR.findById(id)

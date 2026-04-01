@@ -64,10 +64,12 @@ public class UtentiControllerTest {
 
     @Test
     @Order(4)
-    public void updateUtente() {
-        log.debug("test updateUtente");
+    public void createUtenteError() {
+        log.debug("test createUtenteError");
 
         UtentiReq req = new UtentiReq();
+        req.setNome("pinco");
+        req.setCognome("ponco");
         req.setEmail("pinco@yahoo.com");
         req.setPassword("miku64");
         req.setRuolo("USER");
@@ -76,10 +78,28 @@ public class UtentiControllerTest {
         req.setTelefono("1234567890");
 
         ResponseEntity<Resp> resp = controller.create(req);
+        assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+        Resp r = resp.getBody();
+
+        Assertions.assertThat(r.getMsg()).isEqualTo("user_exist");
+    }
+
+    @Test
+    @Order(5)
+    public void updateUtente() {
+        log.debug("test updateUtente");
+
+        UtentiReq req = new UtentiReq();
+        req.setId(2);
+        req.setEmail("pinco@ponco.net");
+        req.setPassword("miku128");
+        req.setRuolo("ADMIN");
+
+        ResponseEntity<Resp> resp = controller.update(req);
         assertEquals(HttpStatus.OK, resp.getStatusCode());
         Resp r = resp.getBody();
 
-        Assertions.assertThat(r.getMsg()).isEqualTo("rest_created");
+        Assertions.assertThat(r.getMsg()).isEqualTo("rest_updated");
     }
 
 

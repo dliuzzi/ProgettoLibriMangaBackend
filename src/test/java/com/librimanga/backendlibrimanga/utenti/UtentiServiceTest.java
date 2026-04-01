@@ -25,7 +25,6 @@ public class UtentiServiceTest {
     @Order(1)
     public void createUtenteTest() {
         log.debug("create utente");
-        try {
             UtentiReq req = new UtentiReq();
             req.setNome("pinco");
             req.setCognome("pallo");
@@ -44,10 +43,7 @@ public class UtentiServiceTest {
                     .findFirst()
                     .orElseThrow(() -> new LibriException("Utente non trovato"));
 
-            Assertions.assertThat(utente.getCognome().equals("pallo"));
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
+            Assertions.assertThat(utente.getCognome()).isEqualTo("pallo");
     }
 
     @Test
