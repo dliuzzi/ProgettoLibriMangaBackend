@@ -125,7 +125,7 @@ public class UtentiService {
 
     @Transactional(rollbackFor = LibriException.class)
     public void deleteFavourite(PreferitiReq req) throws LibriException {
-        log.debug("deleteFavourite {} {}", req);
+        log.debug("deleteFavourite {}", req);
 
         Utenti ut = utR.findById(req.getIdUtente())
                 .orElseThrow(() -> new LibriException(msgS.get("utente_ntfnd")));
