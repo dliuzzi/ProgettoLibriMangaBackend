@@ -57,4 +57,23 @@ public class Mapper {
                 .libriPreferiti(u.getLibriPreferiti().stream().map(Mapper::buildLibriDTO).toList())
                 .build();
     }
+
+    public static OrdiniDTO buildOrdiniDTO(Ordini o) {
+        return OrdiniDTO.builder()
+                .id(o.getId())
+                .utente(buildUtentiDTO(o.getUtente()))
+                .dettagliOrdine(o.getDettagliOrdini().stream().map(Mapper::buildDettagliOrdiniDTO).toList())
+                .build();
+    }
+
+    public static DettagliOrdiniDTO buildDettagliOrdiniDTO(DettagliOrdini d) {
+        return DettagliOrdiniDTO.builder()
+                .id(d.getId())
+                .libro(buildLibriDTO(d.getLibro()))
+                .quantita(d.getQuantita())
+                .costoTotale(d.getCostoTotale())
+                .stato(d.getStato().toString())
+                .data(d.getData())
+                .build();
+    }
 }

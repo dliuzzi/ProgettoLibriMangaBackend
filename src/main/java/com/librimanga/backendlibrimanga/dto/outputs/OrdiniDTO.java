@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,5 +12,5 @@ import java.util.Set;
 public class OrdiniDTO {
     private Integer id;
     private UtentiDTO utente;
-    private Set<DettagliOrdiniDTO> dettagliOrdine;
+    private List<DettagliOrdiniDTO> dettagliOrdine;
 }
