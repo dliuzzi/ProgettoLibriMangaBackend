@@ -124,13 +124,13 @@ public class UtentiService {
     }
 
     @Transactional(rollbackFor = LibriException.class)
-    public void deleteFavourite(PreferitiReq req) throws LibriException {
-        log.debug("deleteFavourite {}", req);
+    public void deleteFavourite(Integer idUtente, Integer idLibro) throws LibriException {
+        log.debug("deleteFavourite {} {}", idUtente, idLibro);
 
-        Utenti ut = utR.findById(req.getIdUtente())
+        Utenti ut = utR.findById(idUtente)
                 .orElseThrow(() -> new LibriException(msgS.get("utente_ntfnd")));
 
-        Libri l = libR.findById(req.getIdLibro())
+        Libri l = libR.findById(idLibro)
                 .orElseThrow(() -> new LibriException(msgS.get("libri_ntfnd")));
 
         Set<Libri> preferiti = ut.getLibriPreferiti();

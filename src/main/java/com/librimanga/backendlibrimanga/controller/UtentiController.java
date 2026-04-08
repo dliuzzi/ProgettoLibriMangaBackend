@@ -100,11 +100,11 @@ public class UtentiController {
     }
 
     @DeleteMapping("/deleteFavourite")
-    public ResponseEntity<Resp> deleteFavourite(@RequestParam PreferitiReq req) {
+    public ResponseEntity<Resp> deleteFavourite(@RequestParam Integer idUtente, @RequestParam Integer idLibro) {
         Resp r = new Resp();
         HttpStatus status = HttpStatus.OK;
         try {
-            utS.deleteFavourite(req);
+            utS.deleteFavourite(idUtente, idLibro);
             r.setMsg(msgS.get("rest_deleted"));
         } catch (Exception e) {
             r.setMsg(e.getMessage());
