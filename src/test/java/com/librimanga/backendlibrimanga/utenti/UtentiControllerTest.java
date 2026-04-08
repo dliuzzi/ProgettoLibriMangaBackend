@@ -1,6 +1,7 @@
 package com.librimanga.backendlibrimanga.utenti;
 
 import com.librimanga.backendlibrimanga.controller.UtentiController;
+import com.librimanga.backendlibrimanga.dto.inputs.LoginReq;
 import com.librimanga.backendlibrimanga.dto.inputs.UtentiReq;
 import com.librimanga.backendlibrimanga.dto.outputs.UtentiDTO;
 import com.librimanga.backendlibrimanga.response.Resp;
@@ -102,5 +103,20 @@ public class UtentiControllerTest {
         Assertions.assertThat(r.getMsg()).isEqualTo("rest_updated");
     }
 
+    @Test
+    @Order(6)
+    public void loginTest() {
+        log.debug("loginTest");
 
+        LoginReq req = new LoginReq();
+        req.setEmail("pinco@ponco.net");
+        req.setPassword("miku128");
+
+        ResponseEntity<Object> resp = controller.login(req);
+        assertEquals(HttpStatus.OK, resp.getStatusCode());
+
+        UtentiDTO utente = (UtentiDTO) resp.getBody();
+
+        Assertions.assertThat(utente.getEmail()).isEqualTo("pinco@ponco.net");
+    }
 }
