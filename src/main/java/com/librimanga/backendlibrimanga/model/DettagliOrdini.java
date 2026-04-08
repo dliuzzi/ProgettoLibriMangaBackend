@@ -20,7 +20,7 @@ public class DettagliOrdini {
     private Integer quantita;
 
     @Column(nullable = false)
-    private Integer costoTotale;
+    private Double costoTotale;
 
     @Column(nullable = false)
     private StatoOrdine stato;

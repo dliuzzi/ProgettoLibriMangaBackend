@@ -19,6 +19,6 @@ public class Ordini {
     @JoinColumn(name = "id_utente", nullable = false)
     private Utenti utente;
 
-    @OneToMany(mappedBy = "ordine")
+    @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<DettagliOrdini> dettagliOrdini;
 }
