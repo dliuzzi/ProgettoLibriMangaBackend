@@ -62,6 +62,15 @@ public class LibriService {
         return l.getId();
     }
 
+    @Transactional(rollbackFor = LibriException.class)
+    public void delete(Integer id) throws LibriException {
+        log.debug("delete {}", id);
+        Libri libro = libR.findById(id)
+                .orElseThrow(() -> new LibriException(msgS.get("libri_ntfnd")));
+
+        libR.delete(libro);
+    }
+
     @Transactional(readOnly = true)
     public List<LibriDTO> list(OrdineLibri sort, Set<Integer> categorie) {
         log.debug("list");

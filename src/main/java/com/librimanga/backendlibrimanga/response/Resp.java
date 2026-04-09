@@ -7,5 +7,4 @@ import lombok.Setter;
 @Getter
 public class Resp {
     private String msg;
-    private Integer id;
 }

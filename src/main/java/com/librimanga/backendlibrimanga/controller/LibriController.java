@@ -2,6 +2,7 @@ package com.librimanga.backendlibrimanga.controller;
 
 import com.librimanga.backendlibrimanga.dto.inputs.LibriReq;
 import com.librimanga.backendlibrimanga.enums.OrdineLibri;
+import com.librimanga.backendlibrimanga.response.CreateResp;
 import com.librimanga.backendlibrimanga.response.Resp;
 import com.librimanga.backendlibrimanga.service.LibriService;
 import com.librimanga.backendlibrimanga.service.MessaggiService;
@@ -20,13 +21,27 @@ public class LibriController {
     private final MessaggiService msgS;
 
     @PostMapping("/create")
-    public ResponseEntity<Resp> create(@RequestBody LibriReq req) {
-        Resp r = new Resp();
+    public ResponseEntity<CreateResp> create(@RequestBody LibriReq req) {
+        CreateResp r = new CreateResp();
         HttpStatus status = HttpStatus.OK;
         try {
             Integer id = libS.create(req);
             r.setMsg(msgS.get("rest_created"));
             r.setId(id);
+        } catch (Exception e) {
+            r.setMsg(e.getMessage());
+            status = HttpStatus.BAD_REQUEST;
+        }
+        return ResponseEntity.status(status).body(r);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Resp> delete(@RequestParam Integer id) {
+        Resp r = new Resp();
+        HttpStatus status = HttpStatus.OK;
+        try {
+            libS.delete(id);
+            r.setMsg(msgS.get("rest_deleted"));
         } catch (Exception e) {
             r.setMsg(e.getMessage());
             status = HttpStatus.BAD_REQUEST;
