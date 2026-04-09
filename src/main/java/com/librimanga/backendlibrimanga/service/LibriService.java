@@ -30,7 +30,7 @@ public class LibriService {
     private final MessaggiService msgS;
 
     @Transactional(rollbackFor = LibriException.class)
-    public void create(LibriReq req) throws LibriException {
+    public Integer create(LibriReq req) throws LibriException {
         log.debug("create {}", req);
 
         Autori autore = autR.findById(req.getIdAutore())
@@ -57,7 +57,9 @@ public class LibriService {
         l.setCategorie(categorie);
         l.setCasaEditrice(casa);
 
-        libR.save(l);
+        l = libR.save(l);
+
+        return l.getId();
     }
 
     @Transactional(readOnly = true)

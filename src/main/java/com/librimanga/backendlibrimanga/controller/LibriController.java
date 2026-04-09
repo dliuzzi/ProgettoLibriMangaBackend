@@ -24,8 +24,9 @@ public class LibriController {
         Resp r = new Resp();
         HttpStatus status = HttpStatus.OK;
         try {
-            libS.create(req);
+            Integer id = libS.create(req);
             r.setMsg(msgS.get("rest_created"));
+            r.setId(id);
         } catch (Exception e) {
             r.setMsg(e.getMessage());
             status = HttpStatus.BAD_REQUEST;
