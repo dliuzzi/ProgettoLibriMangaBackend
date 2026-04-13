@@ -1,5 +1,6 @@
 package com.librimanga.backendlibrimanga.service;
 
+import com.librimanga.backendlibrimanga.dto.MailReq;
 import com.librimanga.backendlibrimanga.dto.inputs.LoginReq;
 import com.librimanga.backendlibrimanga.dto.inputs.PreferitiReq;
 import com.librimanga.backendlibrimanga.dto.inputs.UtentiReq;
@@ -13,6 +14,7 @@ import com.librimanga.backendlibrimanga.repository.UtentiRepository;
 import com.librimanga.backendlibrimanga.utilities.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,7 @@ public class UtentiService {
     private final UtentiRepository utR;
     private final LibriRepository libR;
     private final MessaggiService msgS;
+    private final MailService mailS;
 
     @Transactional(rollbackFor = LibriException.class)
     public void create(UtentiReq req) throws LibriException {
@@ -137,5 +140,29 @@ public class UtentiService {
         preferiti.remove(l);
 
         utR.save(ut);
+    }
+
+    @Value("${mail.passwordResetUrl}")
+    private String passwordResetUrl;
+
+    public void sendPasswordResetMail(String email) throws Exception {
+        Utenti utente = utR.findByEmail(email)
+                .orElseThrow(() -> new LibriException(msgS.get("utenti_ntfnd")));
+
+        StringBuilder body = new StringBuilder();
+        body.append("Buongiorno %s<br>".formatted(utente.getNome()));
+        body.append("Clicca il link per resettare la password<br>");
+        body.append("<a>%s<a>".formatted(passwordResetUrl + utente.getId()));
+
+        sendMail(utente, "Password dimenticata", body.toString());
+    }
+
+    private void sendMail(Utenti utente, String oggetto, String body) throws Exception{
+        mailS.sendMail(MailReq.builder()
+                .to(utente.getEmail())
+                .oggetto(oggetto)
+                .body(body)
+                .build()
+        );
     }
 }

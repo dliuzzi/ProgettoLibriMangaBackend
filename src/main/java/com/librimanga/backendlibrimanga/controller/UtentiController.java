@@ -112,4 +112,19 @@ public class UtentiController {
         }
         return ResponseEntity.status(status).body(r);
     }
+
+    @GetMapping("/sendPasswordResetMail")
+    public ResponseEntity<Resp> sendPasswordResetMail(@RequestParam String email){
+        Resp r = new Resp();
+        HttpStatus status = HttpStatus.OK;
+        try {
+            utS.sendPasswordResetMail(email);
+            r.setMsg(msgS.get("rest_created"));
+        } catch (Exception e) {
+            r.setMsg(e.getMessage());
+            status = HttpStatus.BAD_REQUEST;
+        }
+        return ResponseEntity.status(status).body(r);
+
+    }
 }
