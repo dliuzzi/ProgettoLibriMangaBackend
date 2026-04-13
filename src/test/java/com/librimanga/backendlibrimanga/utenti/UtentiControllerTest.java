@@ -1,5 +1,6 @@
 package com.librimanga.backendlibrimanga.utenti;
 
+import com.librimanga.backendlibrimanga.BaseTest;
 import com.librimanga.backendlibrimanga.controller.UtentiController;
 import com.librimanga.backendlibrimanga.dto.inputs.LoginReq;
 import com.librimanga.backendlibrimanga.dto.inputs.UtentiReq;
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Slf4j
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class UtentiControllerTest {
+public class UtentiControllerTest extends BaseTest {
     @Autowired
     private UtentiController controller;
 

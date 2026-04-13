@@ -1,5 +1,6 @@
 package com.librimanga.backendlibrimanga.autori;
 
+import com.librimanga.backendlibrimanga.BaseTest;
 import com.librimanga.backendlibrimanga.controller.AutoriController;
 import com.librimanga.backendlibrimanga.dto.inputs.AutoriReq;
 import com.librimanga.backendlibrimanga.dto.outputs.AutoriDTO;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Slf4j
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class AutoriControllerTest {
+public class AutoriControllerTest extends BaseTest {
     @Autowired
     private AutoriController controller;
 

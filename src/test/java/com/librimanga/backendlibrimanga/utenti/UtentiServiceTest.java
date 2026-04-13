@@ -1,5 +1,6 @@
 package com.librimanga.backendlibrimanga.utenti;
 
+import com.librimanga.backendlibrimanga.BaseTest;
 import com.librimanga.backendlibrimanga.dto.inputs.UtentiReq;
 import com.librimanga.backendlibrimanga.dto.outputs.UtentiDTO;
 import com.librimanga.backendlibrimanga.exceptions.LibriException;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Slf4j
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class UtentiServiceTest {
+public class UtentiServiceTest extends BaseTest {
     @Autowired
     private UtentiService service;
 
