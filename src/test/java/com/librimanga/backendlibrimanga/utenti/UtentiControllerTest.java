@@ -3,6 +3,7 @@ package com.librimanga.backendlibrimanga.utenti;
 import com.librimanga.backendlibrimanga.BaseTest;
 import com.librimanga.backendlibrimanga.controller.UtentiController;
 import com.librimanga.backendlibrimanga.dto.inputs.LoginReq;
+import com.librimanga.backendlibrimanga.dto.inputs.PreferitiReq;
 import com.librimanga.backendlibrimanga.dto.inputs.UtentiReq;
 import com.librimanga.backendlibrimanga.dto.outputs.UtentiDTO;
 import com.librimanga.backendlibrimanga.response.Resp;
@@ -119,5 +120,36 @@ public class UtentiControllerTest extends BaseTest {
         UtentiDTO utente = (UtentiDTO) resp.getBody();
 
         Assertions.assertThat(utente.getEmail()).isEqualTo("pinco@ponco.net");
+    }
+    @Test
+    @Order(7)
+    public void addFavoriteTest() {
+        log.debug("addFavoriteTest");
+
+        PreferitiReq req = new PreferitiReq();
+        req.setIdUtente(2);
+        req.setIdLibro(1);
+
+        ResponseEntity<Resp> resp = controller.addFavourite(req);
+        assertEquals(HttpStatus.OK, resp.getStatusCode());
+        Resp r = resp.getBody();
+
+        Assertions.assertThat(r.getMsg()).isEqualTo("rest_created");
+    }
+
+    @Test
+    @Order(8)
+    public void deleteFavoriteTest() {
+        log.debug("deleteFavoriteTest");
+
+        PreferitiReq req = new PreferitiReq();
+        req.setIdUtente(2);
+        req.setIdLibro(1);
+
+        ResponseEntity<Resp> resp = controller.deleteFavourite(2, 1);
+        assertEquals(HttpStatus.OK, resp.getStatusCode());
+        Resp r = resp.getBody();
+
+        Assertions.assertThat(r.getMsg()).isEqualTo("rest_deleted");
     }
 }

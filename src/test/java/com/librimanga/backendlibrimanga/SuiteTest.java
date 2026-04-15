@@ -13,12 +13,12 @@ import org.junit.platform.suite.api.Suite;
 
 @Suite
 @SelectClasses({
-        UtentiServiceTest.class,
-        UtentiControllerTest.class,
         AutoriControllerTest.class,
         CaseEditriciControllerTest.class,
         CategorieControllerTest.class,
         LibriControllerTest.class,
+        UtentiServiceTest.class,
+        UtentiControllerTest.class,
         OrdiniControllerTest.class,
         UploadControllerTest.class,
 })
