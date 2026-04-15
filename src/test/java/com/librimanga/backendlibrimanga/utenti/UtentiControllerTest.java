@@ -121,6 +121,7 @@ public class UtentiControllerTest extends BaseTest {
 
         Assertions.assertThat(utente.getEmail()).isEqualTo("pinco@ponco.net");
     }
+
     @Test
     @Order(7)
     public void addFavoriteTest() {
@@ -139,17 +140,41 @@ public class UtentiControllerTest extends BaseTest {
 
     @Test
     @Order(8)
-    public void deleteFavoriteTest() {
-        log.debug("deleteFavoriteTest");
+    public void addFavoriteErrorTest() {
+        log.debug("addFavoriteErrorTest");
 
         PreferitiReq req = new PreferitiReq();
-        req.setIdUtente(2);
+        req.setIdUtente(99);
         req.setIdLibro(1);
+
+        ResponseEntity<Resp> resp = controller.addFavourite(req);
+        assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+        Resp r = resp.getBody();
+
+        Assertions.assertThat(r.getMsg()).isEqualTo("utenti_ntfnd");
+    }
+
+    @Test
+    @Order(9)
+    public void deleteFavoriteTest() {
+        log.debug("deleteFavoriteTest");
 
         ResponseEntity<Resp> resp = controller.deleteFavourite(2, 1);
         assertEquals(HttpStatus.OK, resp.getStatusCode());
         Resp r = resp.getBody();
 
         Assertions.assertThat(r.getMsg()).isEqualTo("rest_deleted");
+    }
+
+    @Test
+    @Order(10)
+    public void deleteFavoriteErrorTest() {
+        log.debug("deleteFavoriteErrorTest");
+
+        ResponseEntity<Resp> resp = controller.deleteFavourite(2, 99);
+        assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+        Resp r = resp.getBody();
+
+        Assertions.assertThat(r.getMsg()).isEqualTo("libri_ntfnd");
     }
 }

@@ -117,7 +117,7 @@ public class UtentiService {
         log.debug("addFavourite {}", req);
 
         Utenti ut = utR.findById(req.getIdUtente())
-                .orElseThrow(() -> new LibriException(msgS.get("utente_ntfnd")));
+                .orElseThrow(() -> new LibriException(msgS.get("utenti_ntfnd")));
 
         Libri l = libR.findById(req.getIdLibro())
                 .orElseThrow(() -> new LibriException(msgS.get("libri_ntfnd")));
@@ -133,7 +133,7 @@ public class UtentiService {
         log.debug("deleteFavourite {} {}", idUtente, idLibro);
 
         Utenti ut = utR.findById(idUtente)
-                .orElseThrow(() -> new LibriException(msgS.get("utente_ntfnd")));
+                .orElseThrow(() -> new LibriException(msgS.get("utenti_ntfnd")));
 
         Libri l = libR.findById(idLibro)
                 .orElseThrow(() -> new LibriException(msgS.get("libri_ntfnd")));

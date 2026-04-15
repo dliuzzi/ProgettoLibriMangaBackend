@@ -5,7 +5,6 @@ import com.librimanga.backendlibrimanga.controller.LibriController;
 import com.librimanga.backendlibrimanga.controller.UploadController;
 import com.librimanga.backendlibrimanga.dto.outputs.LibriDTO;
 import com.librimanga.backendlibrimanga.response.Resp;
-import com.librimanga.backendlibrimanga.service.MessaggiService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
@@ -51,5 +50,22 @@ public class UploadControllerTest extends BaseTest {
 
         Assertions.assertThat(libro.getCopertina().substring(0, 5)).isEqualTo("test-");
         Assertions.assertThat(libro.getCopertina().substring(libro.getCopertina().length() - 4)).isEqualTo(".jpg");
+    }
+
+    @Test
+    @Order(2)
+    public void uploadErrorTest() {
+        MockMultipartFile file
+                = new MockMultipartFile(
+                "file",
+                "test.jpg",
+                MediaType.TEXT_PLAIN_VALUE,
+                "Hello, World!".getBytes()
+        );
+
+        ResponseEntity<Resp> resp = controller.uploadImage(file, 1);
+        assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+        Resp r = resp.getBody();
+        Assertions.assertThat(r.getMsg()).isEqualTo("upload_invalid");
     }
 }
