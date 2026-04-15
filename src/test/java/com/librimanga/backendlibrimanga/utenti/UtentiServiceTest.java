@@ -24,7 +24,7 @@ public class UtentiServiceTest extends BaseTest {
 
     @Test
     @Order(1)
-    public void createUtenteTest() {
+    public void createUtenteTest() throws Exception {
         log.debug("create utente");
             UtentiReq req = new UtentiReq();
             req.setNome("pinco");
