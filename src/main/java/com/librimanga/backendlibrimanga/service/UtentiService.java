@@ -33,7 +33,7 @@ public class UtentiService {
     private final MailService mailS;
 
     @Transactional(rollbackFor = LibriException.class)
-    public void create(UtentiReq req) throws LibriException {
+    public void create(UtentiReq req) throws Exception {
         log.debug("create {}", req);
 
         if (utR.existsByEmail(req.getEmail())) {
@@ -50,7 +50,9 @@ public class UtentiService {
         u.setProvincia(req.getProvincia());
         u.setTelefono(req.getTelefono());
 
-        utR.save(u);
+        u = utR.save(u);
+
+        sendWelcomeMail(u);
     }
 
     @Transactional(rollbackFor = LibriException.class)
@@ -155,6 +157,13 @@ public class UtentiService {
         body.append("<a>%s<a>".formatted(passwordResetUrl + utente.getId()));
 
         sendMail(utente, "Password dimenticata", body.toString());
+    }
+
+    public void sendWelcomeMail(Utenti utente) throws Exception {
+        StringBuilder body = new StringBuilder();
+        body.append("Benvenuto %s %s!".formatted(utente.getNome(), utente.getCognome()));
+
+        sendMail(utente, "Benvenuto nel sito!", body.toString());
     }
 
     private void sendMail(Utenti utente, String oggetto, String body) throws Exception{
