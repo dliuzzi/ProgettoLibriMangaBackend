@@ -91,7 +91,7 @@ public class LibriControllerTest extends BaseTest {
     @Test
     @Order(4)
     public void listLibro() {
-        ResponseEntity<Object> resp = controller.list(null, null);
+        ResponseEntity<Object> resp = controller.list(null, null, null);
         assertEquals(HttpStatus.OK, resp.getStatusCode());
         List<LibriDTO> libri = (List<LibriDTO>) resp.getBody();
         Assertions.assertThat(libri.get(0).getDescrizione()).isEqualTo("descrizione");
