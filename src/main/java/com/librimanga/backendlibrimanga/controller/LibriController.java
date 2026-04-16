@@ -52,12 +52,13 @@ public class LibriController {
     @GetMapping("/list")
     public ResponseEntity<Object> list(
             @RequestParam(required = false) OrdineLibri sort,
-            @RequestParam(required = false) Set<Integer> categorie
+            @RequestParam(required = false) Set<Integer> categorie,
+            @RequestParam(required = false) Integer autore
             ) {
         Object r;
         HttpStatus status = HttpStatus.OK;
         try {
-            r= libS.list(sort, categorie);
+            r= libS.list(sort, categorie, autore);
         } catch (Exception e) {
             r=e.getMessage();
             status = HttpStatus.BAD_REQUEST;

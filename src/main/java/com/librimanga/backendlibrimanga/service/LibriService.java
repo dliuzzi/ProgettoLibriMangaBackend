@@ -72,7 +72,7 @@ public class LibriService {
     }
 
     @Transactional(readOnly = true)
-    public List<LibriDTO> list(OrdineLibri sort, Set<Integer> categorie) {
+    public List<LibriDTO> list(OrdineLibri sort, Set<Integer> categorie, Integer autore) {
         log.debug("list");
 
         List<Libri> lL = switch (sort) {
@@ -94,6 +94,11 @@ public class LibriService {
 
                         return idsLibro.containsAll(categorie);
                     }).toList();
+        }
+
+        if (autore != null) {
+            lL = lL.stream()
+                    .filter(l -> l.getAutore().getId().equals(autore)).toList();
         }
 
         return lL.stream()
