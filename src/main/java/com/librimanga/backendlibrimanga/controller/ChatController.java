@@ -12,6 +12,10 @@ public class ChatController {
     public Map<String, String> chat(@RequestBody Map<String, String> body) {
         String msg = body.get("message").toLowerCase();
 
+        if (msg.contains("buongiorno") || msg.contains("ciao")) {
+            return Map.of("reply", "Ciao! Come posso aiutarti?");
+        }
+
         if (msg.contains("telefono") || msg.contains("numero")) {
             return Map.of("reply", "Puoi contattarci al 080-1234567.");
         }
