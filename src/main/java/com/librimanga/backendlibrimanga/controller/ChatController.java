@@ -28,6 +28,10 @@ public class ChatController {
             return Map.of("reply", "Puoi vedere tutti i prodotti nella sezione Prodotti del sito.");
         }
 
+        if (msg.contains("davide") || msg.contains("angelo")) {
+            return Map.of("reply", "Si, è un nabbo");
+        }
+
         return Map.of("reply", "Non ho capito bene, puoi ripetere?");
     }
 }
