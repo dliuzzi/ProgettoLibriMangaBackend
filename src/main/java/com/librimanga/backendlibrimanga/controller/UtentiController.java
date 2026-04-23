@@ -10,6 +10,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 @RequiredArgsConstructor
 @RestController
@@ -44,6 +51,37 @@ public class UtentiController {
         }
         return ResponseEntity.status(status).body(r);
     }
+
+    // --- NUOVO METODO AGGIUNTO ---
+    @PostMapping("/upload-foto")
+    public ResponseEntity<Resp> uploadFoto(@RequestParam("id") Integer id, @RequestParam("file") MultipartFile file) {
+        Resp r = new Resp();
+        try {
+            // Definiamo il percorso della cartella 'uploads'
+            String folder = "uploads/";
+            Path pathFolder = Paths.get(folder);
+            if (!Files.exists(pathFolder)) {
+                Files.createDirectories(pathFolder);
+            }
+
+            // Creiamo un nome file unico
+            String nomeFile = "user_" + id + "_" + file.getOriginalFilename();
+            Path pathFile = pathFolder.resolve(nomeFile);
+
+            // Salvataggio fisico del file
+            Files.copy(file.getInputStream(), pathFile, StandardCopyOption.REPLACE_EXISTING);
+
+            // Aggiornamento database
+            utS.updateImmagine(id, nomeFile);
+
+            r.setMsg("Foto caricata con successo!");
+            return ResponseEntity.ok(r);
+        } catch (Exception e) {
+            r.setMsg("Errore durante l'upload: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(r);
+        }
+    }
+    // ----------------------------
 
     @GetMapping("/list")
     public ResponseEntity<Object> list() {
@@ -125,6 +163,5 @@ public class UtentiController {
             status = HttpStatus.BAD_REQUEST;
         }
         return ResponseEntity.status(status).body(r);
-
     }
 }
