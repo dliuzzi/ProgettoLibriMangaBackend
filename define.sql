@@ -89,11 +89,11 @@
         ruolo smallint not null check ((ruolo between 0 and 1)),
         cognome varchar(30) not null,
         nome varchar(30) not null,
-        password varchar(30) not null,
         email varchar(100) not null unique,
         provincia varchar(100),
         telefono varchar(100),
         via varchar(100),
+        password varchar(255) not null,
         primary key (id)
     );
 

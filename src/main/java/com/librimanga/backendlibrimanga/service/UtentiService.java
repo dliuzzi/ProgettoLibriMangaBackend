@@ -15,6 +15,7 @@ import com.librimanga.backendlibrimanga.utilities.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ public class UtentiService {
     private final LibriRepository libR;
     private final MessaggiService msgS;
     private final MailService mailS;
+    private final PasswordEncoder encoder;
 
     @Transactional(rollbackFor = LibriException.class)
     public void create(UtentiReq req) throws Exception {
@@ -44,7 +46,7 @@ public class UtentiService {
         u.setNome(req.getNome());
         u.setCognome(req.getCognome());
         u.setEmail(req.getEmail());
-        u.setPassword(req.getPassword());
+        u.setPassword(encoder.encode(req.getPassword()));
         u.setRuolo(Ruoli.valueOf(req.getRuolo()));
         u.setVia(req.getVia());
         u.setProvincia(req.getProvincia());
@@ -69,7 +71,7 @@ public class UtentiService {
         if (req.getEmail() != null)
             u.setEmail(req.getEmail());
         if (req.getPassword() != null)
-            u.setPassword(req.getPassword());
+            u.setPassword(encoder.encode(req.getPassword()));
         if (req.getRuolo() != null)
             u.setRuolo(Ruoli.valueOf(req.getRuolo()));
         if (req.getVia() != null)
@@ -105,7 +107,7 @@ public class UtentiService {
         log.debug("login {}", req);
         Utenti ut = utR.findByEmail(req.getEmail())
                 .orElseThrow(() -> new LibriException(msgS.get("login_invalid")));
-        if (!ut.getPassword().equals(req.getPassword())) {
+        if (!encoder.matches(req.getPassword(), ut.getPassword())) {
             throw new LibriException(msgS.get("login_invalid"));
         }
 
