@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CaseEditriciReq {
-    private Integer id;
+    //private Integer id;
     private String nome;
-    private String sede;
+   // private String sede;
 }

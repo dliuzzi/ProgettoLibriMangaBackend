@@ -55,7 +55,7 @@
         quantita_disponibile integer not null,
         copertina varchar(100),
         titolo varchar(100) not null,
-        descrizione varchar(500),
+        descrizione TEXT,
         primary key (id)
     );
 

@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class AutoriReq {
-    private Integer id;
+   // private Integer id;
     private String nome;
     private String cognome;
 }
