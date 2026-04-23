@@ -21,8 +21,7 @@ public class Libri {
 
     @Column(columnDefinition = "TEXT")
     private String descrizione;
-
-    @Column(length = 100)
+    
     private String copertina;
 
     @Column(nullable = false)

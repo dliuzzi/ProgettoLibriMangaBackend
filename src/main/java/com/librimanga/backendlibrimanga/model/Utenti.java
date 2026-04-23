@@ -27,7 +27,6 @@ public class Utenti {
     @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING) // Assicurati che il ruolo sia gestito correttamente
     @Column(nullable = false)
     private Ruoli ruolo;
 
@@ -40,8 +39,6 @@ public class Utenti {
     @Column(length = 100)
     private String telefono;
 
-    // Ecco la nuova colonna
-    @Column(name = "immagine_profilo")
     private String immagineProfilo;
 
     @ManyToMany

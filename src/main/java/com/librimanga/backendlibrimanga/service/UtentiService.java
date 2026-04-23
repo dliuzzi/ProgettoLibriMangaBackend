@@ -84,18 +84,6 @@ public class UtentiService {
         utR.save(u);
     }
 
-    // --- NUOVO METODO AGGIUNTO PER L'IMMAGINE ---
-    @Transactional(rollbackFor = LibriException.class)
-    public void updateImmagine(Integer id, String nomeFile) throws LibriException {
-        log.debug("updateImmagine {} {}", id, nomeFile);
-        Utenti u = utR.findById(id)
-                .orElseThrow(() -> new LibriException(msgS.get("utenti_ntfnd")));
-
-        u.setImmagineProfilo(nomeFile);
-        utR.save(u);
-    }
-    // --------------------------------------------
-
     @Transactional(readOnly = true)
     public List<UtentiDTO> list() {
         log.debug("list");

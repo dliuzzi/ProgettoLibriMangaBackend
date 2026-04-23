@@ -1,8 +1,11 @@
 package com.librimanga.backendlibrimanga.service;
 
+import com.librimanga.backendlibrimanga.enums.TipoUpload;
 import com.librimanga.backendlibrimanga.exceptions.LibriException;
 import com.librimanga.backendlibrimanga.model.Libri;
+import com.librimanga.backendlibrimanga.model.Utenti;
 import com.librimanga.backendlibrimanga.repository.LibriRepository;
+import com.librimanga.backendlibrimanga.repository.UtentiRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,17 +25,21 @@ import java.util.UUID;
 @Slf4j
 @Service
 public class UploadService {
-
     private final Path uploadPath;
     private final MessaggiService msgS;
     private final LibriRepository libR;
+    private final UtentiRepository utR;
 
-
-    public UploadService(@Value("${app.upload.dir:uploads}") String uploadDir,  // valore per default della value
-                      MessaggiService msgS, LibriRepository libR ) {
+    public UploadService(
+            @Value("${app.upload.dir:uploads}") String uploadDir,  // valore per default della value
+            MessaggiService msgS,
+            LibriRepository libR,
+            UtentiRepository utR
+    ) {
         this.uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize(); // transform relative path in absolute  path
         this.msgS = msgS;
         this.libR = libR;
+        this.utR = utR;
         init();
     }
 
@@ -47,7 +54,7 @@ public class UploadService {
     }
 
     @Transactional(rollbackFor = LibriException.class)
-    public String saveImage(MultipartFile file, Integer id) {
+    public String saveImage(MultipartFile file, Integer id, TipoUpload tipo) {
         log.debug("saveImage {}", id);
 
         Assert.isTrue(!file.isEmpty(),() -> msgS.get("upload_empty")); // control file loaded
@@ -69,10 +76,21 @@ public class UploadService {
 
         try {
             Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
-            Libri l = libR.findById(id)
-                    .orElseThrow(() -> new LibriException(msgS.get("libri_ntfnd")));
-            l.setCopertina(uniqueName);
 
+            System.out.println(tipo);
+
+            switch (tipo) {
+                case libro -> {
+                    Libri l = libR.findById(id)
+                            .orElseThrow(() -> new LibriException(msgS.get("libri_ntfnd")));
+                    l.setCopertina(uniqueName);
+                }
+                case utente -> {
+                    Utenti u = utR.findById(id)
+                            .orElseThrow(() -> new LibriException(msgS.get("utenti_ntfnd")));
+                    u.setImmagineProfilo(uniqueName);
+                }
+            }
         } catch (IOException e) {
             throw new RuntimeException(msgS.get("upload_save_error"));
         }

@@ -18,5 +18,6 @@ public class UtentiDTO {
     private String via;
     private String provincia;
     private String telefono;
+    private String immagineProfilo;
     private List<LibriDTO> libriPreferiti;
 }

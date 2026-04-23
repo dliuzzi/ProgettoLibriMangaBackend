@@ -54,6 +54,7 @@ public class Mapper {
                 .via(u.getVia())
                 .provincia(u.getProvincia())
                 .telefono(u.getTelefono())
+                .immagineProfilo(u.getImmagineProfilo())
                 .libriPreferiti(u.getLibriPreferiti().stream().map(Mapper::buildLibriDTO).toList())
                 .build();
     }

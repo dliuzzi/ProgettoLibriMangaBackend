@@ -1,5 +1,6 @@
 package com.librimanga.backendlibrimanga.controller;
 
+import com.librimanga.backendlibrimanga.enums.TipoUpload;
 import com.librimanga.backendlibrimanga.response.Resp;
 import com.librimanga.backendlibrimanga.service.MessaggiService;
 import com.librimanga.backendlibrimanga.service.UploadService;
@@ -20,7 +21,9 @@ public class UploadController {
     @PostMapping(value = "/image", consumes = "multipart/form-data")
     public ResponseEntity<Resp> uploadImage(
             @RequestParam MultipartFile file,
-            @RequestParam Integer id) {
+            @RequestParam Integer id,
+            @RequestParam TipoUpload tipo
+    ) {
         Resp r = new Resp();
         try {
 			 /*
@@ -34,7 +37,7 @@ public class UploadController {
                 return ResponseEntity.badRequest().body(r);
             }
 
-            r.setMsg(uplS.saveImage(file, id));
+            r.setMsg(uplS.saveImage(file, id, tipo));
 
             return ResponseEntity.status(HttpStatus.CREATED).body(r);
 
