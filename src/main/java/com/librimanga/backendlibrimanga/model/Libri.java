@@ -19,7 +19,7 @@ public class Libri {
     @Column(length = 100, nullable = false)
     private String titolo;
 
-    @Column(length = 500)
+    @Column(columnDefinition = "TEXT")
     private String descrizione;
 
     @Column(length = 100)

@@ -32,7 +32,7 @@ public class CaseEditriciService {
 
         CaseEditrici c = new CaseEditrici();
         c.setNome(req.getNome());
-        c.setSede(req.getSede());
+        //c.setSede(req.getSede());
 
         caseR.save(c);
     }
