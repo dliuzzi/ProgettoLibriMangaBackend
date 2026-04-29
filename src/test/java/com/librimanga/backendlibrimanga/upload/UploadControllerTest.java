@@ -4,6 +4,7 @@ import com.librimanga.backendlibrimanga.BaseTest;
 import com.librimanga.backendlibrimanga.controller.LibriController;
 import com.librimanga.backendlibrimanga.controller.UploadController;
 import com.librimanga.backendlibrimanga.dto.outputs.LibriDTO;
+import com.librimanga.backendlibrimanga.enums.TipoUpload;
 import com.librimanga.backendlibrimanga.response.Resp;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -41,7 +42,7 @@ public class UploadControllerTest extends BaseTest {
                 "Hello, World!".getBytes()
         );
 
-        ResponseEntity<Resp> resp = controller.uploadImage(file, 1);
+        ResponseEntity<Resp> resp = controller.uploadImage(file, 1, TipoUpload.libro);
         assertEquals(HttpStatus.CREATED, resp.getStatusCode());
 
         ResponseEntity<?> respL = libriC.findById(1);
@@ -63,7 +64,7 @@ public class UploadControllerTest extends BaseTest {
                 "Hello, World!".getBytes()
         );
 
-        ResponseEntity<Resp> resp = controller.uploadImage(file, 1);
+        ResponseEntity<Resp> resp = controller.uploadImage(file, 1, TipoUpload.libro);
         assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
         Resp r = resp.getBody();
         Assertions.assertThat(r.getMsg()).isEqualTo("upload_invalid");

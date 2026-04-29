@@ -26,25 +26,25 @@ public class UtentiServiceTest extends BaseTest {
     @Order(1)
     public void createUtenteTest() throws Exception {
         log.debug("create utente");
-            UtentiReq req = new UtentiReq();
-            req.setNome("pinco");
-            req.setCognome("pallo");
-            req.setEmail("pinco@outlook.com");
-            req.setPassword("miku2");
-            req.setRuolo("ADMIN");
-            req.setVia("Via pinco");
-            req.setProvincia("Pallo");
-            req.setTelefono("1234567890");
+        UtentiReq req = new UtentiReq();
+        req.setNome("pinco");
+        req.setCognome("pallo");
+        req.setEmail("pinco@outlook.com");
+        req.setPassword("miku2");
+        req.setRuolo("ADMIN");
+        req.setVia("Via pinco");
+        req.setProvincia("Pallo");
+        req.setTelefono("1234567890");
 
-            service.create(req);
+        service.create(req);
 
-            List<UtentiDTO> list = service.list();
-            UtentiDTO utente = list.stream()
-                    .filter(u -> u.getEmail().equals("pinco@outlook.com"))
-                    .findFirst()
-                    .orElseThrow(() -> new LibriException("Utente non trovato"));
+        List<UtentiDTO> list = service.list();
+        UtentiDTO utente = list.stream()
+                .filter(u -> u.getEmail().equals("pinco@outlook.com"))
+                .findFirst()
+                .orElseThrow(() -> new LibriException("Utente non trovato"));
 
-            Assertions.assertThat(utente.getCognome()).isEqualTo("pallo");
+        Assertions.assertThat(utente.getCognome()).isEqualTo("pallo");
     }
 
     @Test
