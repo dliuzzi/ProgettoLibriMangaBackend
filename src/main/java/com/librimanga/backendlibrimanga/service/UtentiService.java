@@ -108,7 +108,7 @@ public class UtentiService {
         Utenti ut = utR.findByEmail(req.getEmail())
                 .orElseThrow(() -> new LibriException(msgS.get("login_invalid")));
         if (!encoder.matches(req.getPassword(), ut.getPassword())) {
-            throw new LibriException(msgS.get("login_invalid"));
+           throw new LibriException(msgS.get("login_invalid"));
         }
 
         return buildUtentiDTO(ut);
