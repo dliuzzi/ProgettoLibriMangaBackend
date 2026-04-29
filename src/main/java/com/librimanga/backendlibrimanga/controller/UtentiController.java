@@ -10,13 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 @RequiredArgsConstructor
 @RestController
@@ -47,6 +40,20 @@ public class UtentiController {
             utS.update(req);
             r.setMsg(msgS.get("rest_updated"));
         } catch (Exception e) {
+            status = HttpStatus.BAD_REQUEST;
+        }
+        return ResponseEntity.status(status).body(r);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Resp> delete(@RequestParam Integer id) {
+        Resp r = new Resp();
+        HttpStatus status = HttpStatus.OK;
+        try {
+            utS.delete(id);
+            r.setMsg(msgS.get("rest_deleted"));
+        } catch (Exception e) {
+            r.setMsg(e.getMessage());
             status = HttpStatus.BAD_REQUEST;
         }
         return ResponseEntity.status(status).body(r);
