@@ -2,6 +2,7 @@ package com.librimanga.backendlibrimanga.service;
 
 import com.librimanga.backendlibrimanga.dto.inputs.DettagliOrdiniReq;
 import com.librimanga.backendlibrimanga.dto.inputs.OrdiniReq;
+import com.librimanga.backendlibrimanga.dto.inputs.UpdateStatoReq;
 import com.librimanga.backendlibrimanga.dto.outputs.OrdiniDTO;
 import com.librimanga.backendlibrimanga.enums.StatoOrdine;
 import com.librimanga.backendlibrimanga.exceptions.LibriException;
@@ -68,6 +69,28 @@ public class OrdiniService {
         return lO.stream()
                 .map((Mapper::buildOrdiniDTO)
                 ).toList();
+    }
+
+    @Transactional(rollbackFor = LibriException.class)
+    public void updateStatus(UpdateStatoReq req) throws LibriException {
+        log.debug("updateStatus {}", req);
+        Ordini ordine = ordR.findById(req.getId())
+                .orElseThrow(() -> new LibriException(msgS.get("ordini_ntfnd")));
+
+        for (DettagliOrdini dett : ordine.getDettagliOrdini()) {
+            dett.setStato(req.getStatus());
+        }
+
+        ordR.save(ordine);
+    }
+
+    @Transactional(rollbackFor = LibriException.class)
+    public void delete(Integer id) throws LibriException {
+        log.debug("delete {}", id);
+        Ordini ordine = ordR.findById(id)
+                .orElseThrow(() -> new LibriException(msgS.get("ordini_ntfnd")));
+
+        ordR.delete(ordine);
     }
 
     @Transactional(readOnly = true)
