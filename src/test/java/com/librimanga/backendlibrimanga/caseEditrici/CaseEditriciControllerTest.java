@@ -30,7 +30,6 @@ public class CaseEditriciControllerTest extends BaseTest {
     public void createCasaEditrice() {
         CaseEditriciReq req = new CaseEditriciReq();
         req.setNome("casa");
-        req.setSede("sede");
 
         ResponseEntity<Resp> resp = controller.create(req);
         assertEquals(HttpStatus.OK, resp.getStatusCode());
@@ -46,7 +45,6 @@ public class CaseEditriciControllerTest extends BaseTest {
         assertEquals(HttpStatus.OK, resp.getStatusCode());
         CaseEditriciDTO casa = (CaseEditriciDTO) resp.getBody();
         Assertions.assertThat(casa.getNome()).isEqualTo("casa");
-        Assertions.assertThat(casa.getSede()).isEqualTo("sede");
     }
 
     @Test

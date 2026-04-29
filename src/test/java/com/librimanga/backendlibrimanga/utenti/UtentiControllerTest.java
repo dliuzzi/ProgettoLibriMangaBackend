@@ -177,4 +177,28 @@ public class UtentiControllerTest extends BaseTest {
 
         Assertions.assertThat(r.getMsg()).isEqualTo("libri_ntfnd");
     }
+
+    @Test
+    @Order(12)
+    public void deleteUtente() {
+        log.debug("deleteUtente");
+
+        ResponseEntity<Resp> resp = controller.delete(1);
+        assertEquals(HttpStatus.OK, resp.getStatusCode());
+        Resp r = resp.getBody();
+
+        Assertions.assertThat(r.getMsg()).isEqualTo("rest_deleted");
+    }
+
+    @Test
+    @Order(12)
+    public void deleteUtenteError() {
+        log.debug("deleteUtenteError");
+
+        ResponseEntity<Resp> resp = controller.delete(99);
+        assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+        Resp r = resp.getBody();
+
+        Assertions.assertThat(r.getMsg()).isEqualTo("utenti_ntfnd");
+    }
 }

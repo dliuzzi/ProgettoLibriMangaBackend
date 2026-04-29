@@ -84,6 +84,15 @@ public class UtentiService {
         utR.save(u);
     }
 
+    @Transactional(rollbackFor = LibriException.class)
+    public void delete(Integer id) throws LibriException {
+        log.debug("delete {}", id);
+        Utenti u = utR.findById(id)
+                .orElseThrow(() -> new LibriException(msgS.get("utenti_ntfnd")));
+
+        utR.delete(u);
+    }
+
     @Transactional(readOnly = true)
     public List<UtentiDTO> list() {
         log.debug("list");

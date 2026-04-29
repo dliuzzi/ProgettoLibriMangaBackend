@@ -33,7 +33,7 @@ public class OrdiniControllerTest extends BaseTest {
     @Order(1)
     public void createOrdine() {
         OrdiniReq req = new OrdiniReq();
-        req.setIdUtente(1);
+        req.setIdUtente(2);
 
         DettagliOrdiniReq dReq = new DettagliOrdiniReq();
         dReq.setIdLibro(1);
@@ -51,7 +51,7 @@ public class OrdiniControllerTest extends BaseTest {
     @Test
     @Order(2)
     public void getOrdine() {
-        ResponseEntity<?> resp = controller.findByUtente(1);
+        ResponseEntity<?> resp = controller.findByUtente(2);
         assertEquals(HttpStatus.OK, resp.getStatusCode());
         List<OrdiniDTO> ordini = (List<OrdiniDTO>) resp.getBody();
         Assertions.assertThat(ordini.get(0).getDettagliOrdine().get(0).getLibro().getTitolo()).isEqualTo("titolo");
@@ -63,5 +63,23 @@ public class OrdiniControllerTest extends BaseTest {
         ResponseEntity<?> resp = controller.findByUtente(99);
         assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
         Assertions.assertThat(resp.getBody()).isEqualTo("utenti_ntfnd");
+    }
+
+    @Test
+    @Order(4)
+    public void deleteOrdineError() {
+        ResponseEntity<Resp> resp = controller.delete(99);
+        assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+        Resp r = resp.getBody();
+        Assertions.assertThat(r.getMsg()).isEqualTo("ordini_ntfnd");
+    }
+
+    @Test
+    @Order(5)
+    public void deleteOrdine() {
+        ResponseEntity<Resp> resp = controller.delete(1);
+        assertEquals(HttpStatus.OK, resp.getStatusCode());
+        Resp r = resp.getBody();
+        Assertions.assertThat(r.getMsg()).isEqualTo("rest_deleted");
     }
 }
