@@ -47,4 +47,7 @@ public class Utenti {
             joinColumns = @JoinColumn(name = "id_utente"),
             inverseJoinColumns = @JoinColumn(name = "id_libro"))
     Set<Libri> libriPreferiti;
+
+    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Ordini> ordini;
 }

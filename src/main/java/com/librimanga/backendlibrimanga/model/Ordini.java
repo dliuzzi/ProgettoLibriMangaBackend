@@ -15,7 +15,7 @@ public class Ordini {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "id_utente", nullable = false)
     private Utenti utente;
 
