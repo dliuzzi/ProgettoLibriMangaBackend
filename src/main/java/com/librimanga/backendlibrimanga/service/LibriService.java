@@ -80,7 +80,14 @@ public class LibriService {
     }
 
     @Transactional(readOnly = true)
-    public PaginaDTO<LibriDTO> list(OrdineLibri sort, Set<Integer> categorie, Integer autore, Integer page, Integer limit) {
+    public PaginaDTO<LibriDTO> list(
+            OrdineLibri sort,
+            Set<Integer> categorie,
+            Integer autore,
+            Integer page,
+            Integer limit,
+            String q
+    ) {
         log.debug("list");
 
         Sort dynamicSort = switch (sort) {
@@ -94,6 +101,13 @@ public class LibriService {
         Pageable pageRequest = PageRequest.of(page, limit, dynamicSort);
 
         Specification<Libri> spec = (_, _, cb) -> cb.conjunction();
+
+        if (q != null && !q.trim().isEmpty()) {
+            spec = spec.and((root, _, cb) -> {
+                String searchPattern = "%" + q.trim().toLowerCase() + "%";
+                return cb.like(cb.lower(root.get("titolo")), searchPattern);
+            });
+        }
 
         if (autore != null) {
             spec = spec.and(((root, _, cb) ->
