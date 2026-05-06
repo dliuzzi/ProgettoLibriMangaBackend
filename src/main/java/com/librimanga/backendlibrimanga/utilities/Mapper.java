@@ -77,4 +77,15 @@ public class Mapper {
                 .data(d.getData())
                 .build();
     }
+
+    public static RecensioniDTO buildRecensioniDTO(Recensioni r) {
+        return RecensioniDTO.builder()
+                .id(r.getId())
+                .stelle(r.getStelle())
+                .contenuto(r.getContenuto())
+                .libro(buildLibriDTO(r.getLibro()))
+                .utente(buildUtentiDTO(r.getUtente()))
+                .data(r.getData())
+                .build();
+    }
 }

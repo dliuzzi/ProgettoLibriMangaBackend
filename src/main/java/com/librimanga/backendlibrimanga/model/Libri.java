@@ -47,4 +47,7 @@ public class Libri {
     @ManyToOne
     @JoinColumn(name = "id_casa_editrice")
     private CaseEditrici casaEditrice;
+
+    @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Recensioni> recensioni;
 }

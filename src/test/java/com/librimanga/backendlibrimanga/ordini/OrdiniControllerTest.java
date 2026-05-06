@@ -4,7 +4,9 @@ import com.librimanga.backendlibrimanga.BaseTest;
 import com.librimanga.backendlibrimanga.controller.OrdiniController;
 import com.librimanga.backendlibrimanga.dto.inputs.DettagliOrdiniReq;
 import com.librimanga.backendlibrimanga.dto.inputs.OrdiniReq;
+import com.librimanga.backendlibrimanga.dto.inputs.UpdateStatoReq;
 import com.librimanga.backendlibrimanga.dto.outputs.OrdiniDTO;
+import com.librimanga.backendlibrimanga.enums.StatoOrdine;
 import com.librimanga.backendlibrimanga.response.Resp;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -67,6 +69,19 @@ public class OrdiniControllerTest extends BaseTest {
 
     @Test
     @Order(4)
+    public void updateStatus() {
+        UpdateStatoReq req = new UpdateStatoReq();
+        req.setId(1);
+        req.setStatus(StatoOrdine.CONSEGNATO);
+
+        ResponseEntity<Resp> resp = controller.updateStatus(req);
+        assertEquals(HttpStatus.OK, resp.getStatusCode());
+        Resp r = resp.getBody();
+        Assertions.assertThat(r.getMsg()).isEqualTo("rest_updated");
+    }
+
+    @Test
+    @Order(5)
     public void deleteOrdineError() {
         ResponseEntity<Resp> resp = controller.delete(99);
         assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
@@ -75,7 +90,7 @@ public class OrdiniControllerTest extends BaseTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     public void deleteOrdine() {
         ResponseEntity<Resp> resp = controller.delete(1);
         assertEquals(HttpStatus.OK, resp.getStatusCode());

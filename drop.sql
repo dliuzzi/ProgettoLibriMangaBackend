@@ -37,6 +37,12 @@
     alter table if exists ordini 
        drop constraint if exists FKqj5n4mdh5tc9qkj7hx54mvgi4;
 
+    alter table if exists recensioni 
+       drop constraint if exists FK5iqrc9rnh4h0iathjn84u8d2b;
+
+    alter table if exists recensioni 
+       drop constraint if exists FK3qtralkbontl617niblqxy543;
+
     drop table if exists autori cascade;
 
     drop table if exists carrelli cascade;
@@ -58,5 +64,7 @@
     drop table if exists messaggi_sistema cascade;
 
     drop table if exists ordini cascade;
+
+    drop table if exists recensioni cascade;
 
     drop table if exists utenti cascade;

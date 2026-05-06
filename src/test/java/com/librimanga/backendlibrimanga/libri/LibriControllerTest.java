@@ -4,6 +4,7 @@ import com.librimanga.backendlibrimanga.BaseTest;
 import com.librimanga.backendlibrimanga.controller.LibriController;
 import com.librimanga.backendlibrimanga.dto.inputs.LibriReq;
 import com.librimanga.backendlibrimanga.dto.outputs.LibriDTO;
+import com.librimanga.backendlibrimanga.dto.outputs.PaginaDTO;
 import com.librimanga.backendlibrimanga.response.CreateResp;
 import com.librimanga.backendlibrimanga.response.Resp;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -91,10 +92,13 @@ public class LibriControllerTest extends BaseTest {
     @Test
     @Order(4)
     public void listLibro() {
-        ResponseEntity<Object> resp = controller.list(null, null, null);
+        HashSet<Integer> categorie = new HashSet<>();
+        categorie.add(1);
+
+        ResponseEntity<Object> resp = controller.list(0, 10, "titolo", null, categorie, 1);
         assertEquals(HttpStatus.OK, resp.getStatusCode());
-        List<LibriDTO> libri = (List<LibriDTO>) resp.getBody();
-        Assertions.assertThat(libri.get(0).getDescrizione()).isEqualTo("descrizione");
+        PaginaDTO<LibriDTO> libri = (PaginaDTO<LibriDTO>) resp.getBody();
+        Assertions.assertThat(libri.getContent().get(0).getDescrizione()).isEqualTo("descrizione");
     }
 
     @Test
