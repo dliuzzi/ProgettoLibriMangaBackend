@@ -1,14 +1,11 @@
 
     set client_min_messages = WARNING;
 
-    alter table if exists carrelli 
-       drop constraint if exists FKfoplh747w9xrdk0dkvcufdlwd;
-
-    alter table if exists dettagli_carrelli 
-       drop constraint if exists FK2vlij71jwm0vlh3cc1609oqr2;
-
     alter table if exists dettagli_carrelli 
        drop constraint if exists FK7k85wo185hg25epkab6nkajjm;
+
+    alter table if exists dettagli_carrelli 
+       drop constraint if exists FK3boemb201bsycam1xkwpstmiu;
 
     alter table if exists dettagli_ordini 
        drop constraint if exists FKpr0qtebyb5j0wbpocvfvov98w;
@@ -44,8 +41,6 @@
        drop constraint if exists FK3qtralkbontl617niblqxy543;
 
     drop table if exists autori cascade;
-
-    drop table if exists carrelli cascade;
 
     drop table if exists case_editrici cascade;
 

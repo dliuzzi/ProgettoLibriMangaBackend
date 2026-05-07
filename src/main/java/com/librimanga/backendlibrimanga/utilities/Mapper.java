@@ -88,4 +88,13 @@ public class Mapper {
                 .data(r.getData())
                 .build();
     }
+
+    public static DettagliCarrelliDTO buildDettagliCarrelliDTO(DettagliCarrelli c) {
+        return DettagliCarrelliDTO.builder()
+                .id(c.getId())
+                .quantita(c.getQuantita())
+                .libro(buildLibriDTO(c.getLibro()))
+                .utente(buildUtentiDTO(c.getUtente()))
+                .build();
+    }
 }
