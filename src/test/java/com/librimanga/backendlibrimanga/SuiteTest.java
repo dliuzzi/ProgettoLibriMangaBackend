@@ -1,6 +1,7 @@
 package com.librimanga.backendlibrimanga;
 
 import com.librimanga.backendlibrimanga.autori.AutoriControllerTest;
+import com.librimanga.backendlibrimanga.carrelli.CarrelliControllerTest;
 import com.librimanga.backendlibrimanga.caseEditrici.CaseEditriciControllerTest;
 import com.librimanga.backendlibrimanga.categorie.CategorieControllerTest;
 import com.librimanga.backendlibrimanga.libri.LibriControllerTest;
@@ -23,6 +24,7 @@ import org.junit.platform.suite.api.Suite;
         OrdiniControllerTest.class,
         UploadControllerTest.class,
         RecensioniControllerTest.class,
+        CarrelliControllerTest.class,
 })
 
 public class SuiteTest {
